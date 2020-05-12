@@ -15,13 +15,16 @@ import {ApplicationProvider, IconRegistry} from '@ui-kitten/components';
 import {EvaIconsPack} from '@ui-kitten/eva-icons';
 import * as eva from '@eva-design/eva';
 import {default as customMapping} from './src/config/custom-mapping.json';
+import {default as customTheme} from './src/config/custom-theme.json';
+
 import {AppNavigator} from './src/route/navigator';
+const theme = {...eva.light, ...customTheme};
 
 export default () => (
   <>
     <IconRegistry icons={EvaIconsPack} />
     <ApplicationProvider
-      theme={eva.dark}
+      theme={theme}
       mapping={eva.mapping}
       customMapping={customMapping}>
       <AppNavigator />
