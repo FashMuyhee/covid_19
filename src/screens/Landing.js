@@ -38,7 +38,7 @@ const LandingScreen = ({navigation}) => {
 
   return (
     <Container customStyle={styles.container}>
-      <Image source={require('../assets/img/img1.png')} style={styles.image} />
+      <Image source={require('../assets/img/landing.png')} style={styles.image} />
       <Text style={styles.text}>What You Need To Know About</Text>
       <Text
         style={{...styles.text, marginTop: 10, marginBottom: 10}}
@@ -69,7 +69,7 @@ const themedStyles = StyleService.create({
   },
   image: {
     width: wp('70%'),
-    height: hp('45%'),
+    height: hp('55%'),
     alignSelf: 'center',
     marginTop: 20,
   },
