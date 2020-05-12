@@ -13,20 +13,21 @@
 import React from 'react';
 import {ApplicationProvider, IconRegistry} from '@ui-kitten/components';
 import {EvaIconsPack} from '@ui-kitten/eva-icons';
-import * as eva from '@eva-design/eva';
+import {light, mapping} from '@eva-design/eva';
 import {default as customMapping} from './src/config/custom-mapping.json';
 import {default as customTheme} from './src/config/custom-theme.json';
-
+import {StatusBar} from 'react-native';
 import {AppNavigator} from './src/route/navigator';
-const theme = {...eva.light, ...customTheme};
+const theme = {...light, ...customTheme};
 
 export default () => (
   <>
     <IconRegistry icons={EvaIconsPack} />
     <ApplicationProvider
       theme={theme}
-      mapping={eva.mapping}
+      mapping={mapping}
       customMapping={customMapping}>
+      {/* <StatusBar backgroundColor="white" barStyle="dark" /> */}
       <AppNavigator />
     </ApplicationProvider>
   </>
