@@ -64,11 +64,14 @@ const themedStyles = StyleService.create({
     alignItems: 'center',
     width: '100%',
     backgroundColor: 'color-primary-default',
+    paddingLeft: wp('8%'),
+    paddingRight: wp('8%'),
   },
   image: {
     width: wp('70%'),
     height: hp('45%'),
     alignSelf: 'center',
+    marginTop: 20,
   },
   text: {
     fontSize: hp('6%'),
