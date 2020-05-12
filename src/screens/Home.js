@@ -1,11 +1,12 @@
 import React from 'react';
 import {StyleSheet} from 'react-native';
-import {Text, Layout} from '@ui-kitten/components';
+import {Text, Layout, Button} from '@ui-kitten/components';
 
-const HomeScreen = () => {
+const HomeScreen = ({navigation}) => {
   return (
     <Layout style={styles.container}>
       <Text>Home Screen</Text>
+      <Button onPress={() => navigation.goBack()}>Back</Button>
     </Layout>
   );
 };
