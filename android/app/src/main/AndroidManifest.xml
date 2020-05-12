@@ -12,7 +12,7 @@
       android:theme="@style/AppTheme">
 
         <!-- Add this SplashActivity -->
-        <activity
+        <!-- <activity
           android:name=".SplashActivity"
           android:theme="@style/SplashTheme"
           android:label="@string/app_name">
@@ -20,7 +20,7 @@
               <action android:name="android.intent.action.MAIN" />
               <category android:name="android.intent.category.LAUNCHER" />
           </intent-filter>
-        </activity>
+        </activity> -->
 
         <!-- Remove the intent-filter of the MainActivity and add a param android:exported="true" -->
         <activity
