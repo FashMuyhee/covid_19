@@ -14,6 +14,7 @@ import {
   widthPercentageToDP as wp,
 } from 'react-native-responsive-screen';
 import {Image} from 'react-native';
+
 const HomeScreen = ({navigation}) => {
   const styles = useStyleSheet(themedStyles);
   const theme = useTheme();
@@ -47,7 +48,8 @@ const HomeScreen = ({navigation}) => {
             ...styles.box,
             backgroundColor: theme['color-primary-200'],
             marginRight: wp('7%'),
-          }}>
+          }}
+          onPress={()=>navigation.navigate('symptoms')}>
           <Image
             source={require('../assets/img/symptoms.png')}
             style={styles.image}
@@ -67,7 +69,8 @@ const HomeScreen = ({navigation}) => {
           customStyle={{
             ...styles.box,
             backgroundColor: theme['color-danger-400'],
-          }}>
+          }}
+          onPress={()=>navigation.navigate('prevention')}>
           <Image
             source={require('../assets/img/prevention.png')}
             style={styles.image}
@@ -157,7 +160,7 @@ const themedStyles = StyleService.create({
     marginTop: 5,
   },
   cards2: {
-    marginTop: '9%',
+    marginTop: '15%',
     display: 'flex',
     flexDirection: 'row',
     alignItems: 'center',
