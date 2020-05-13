@@ -1,6 +1,6 @@
 import Container from './Container';
-import Navbar from './Navbar';
 import ScrollContainer from './ScrollContainer';
 import Box from './Box';
+import Chip from './Chip';
 
-export {Container, Navbar, ScrollContainer,Box};
+export {Container, ScrollContainer, Box, Chip};
