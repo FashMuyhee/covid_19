@@ -1,7 +1,7 @@
 {
   "strict": {
     "text-font-family": "JosefinSans-Regular",
-    "text-heading-1-font-weight": "bold",
-    "text-heading-1-font-family": "JosefinSans-Bold"
+    /* "text-heading-1-font-weight": "bold",
+    "text-heading-1-font-family": "JosefinSans-Bold" */
   }
 }
