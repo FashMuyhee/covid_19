@@ -1,16 +1,20 @@
 import React from 'react';
-import {StyleSheet} from 'react-native';
+import {StyleSheet, Text, TouchableWithoutFeedback} from 'react-native';
 import {Layout, StyleService, useStyleSheet} from '@ui-kitten/components';
 import {
   heightPercentageToDP as hp,
   widthPercentageToDP as wp,
 } from 'react-native-responsive-screen';
 
-const Box = ({children, customStyle}) => {
+const Box = ({children, customStyle, onPress}) => {
   const styles = useStyleSheet(themedStyles);
   const style = {...styles.container, ...customStyle};
 
-  return <Layout style={style}>{children}</Layout>;
+  return (
+    <TouchableWithoutFeedback onPress={onPress}>
+      <Layout style={style}>{children}</Layout>
+    </TouchableWithoutFeedback>
+  );
 };
 
 export default Box;
