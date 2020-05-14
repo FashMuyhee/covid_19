@@ -15,7 +15,7 @@ import {
 } from 'react-native-responsive-screen';
 import {Image} from 'react-native';
 
-const SymptomsScreen = ({navigation}) => {
+const SymptomsScreen = () => {
   const styles = useStyleSheet(themedStyles);
   const theme = useTheme();
 
@@ -137,7 +137,7 @@ const themedStyles = StyleService.create({
   },
   symptomsBox: {
     backgroundColor: 'color-primary-200',
-    height: hp('20%'),
+    height: hp('15%'),
     width: wp(28),
     alignSelf: 'center',
     paddingLeft: 0,

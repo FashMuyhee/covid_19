@@ -15,7 +15,7 @@ import {
 } from 'react-native-responsive-screen';
 import {Image} from 'react-native';
 
-const PreventionScreen = ({navigation}) => {
+const PreventionScreen = () => {
   const styles = useStyleSheet(themedStyles);
   const theme = useTheme();
   return (
@@ -88,7 +88,7 @@ export default PreventionScreen;
 const themedStyles = StyleService.create({
   container: {},
   headerText: {
-    height: hp('20%'),
+    height: hp('15%'),
     marginTop: hp('6%'),
   },
   card: {
