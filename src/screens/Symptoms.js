@@ -6,6 +6,7 @@ import {
   StyleService,
   useStyleSheet,
   useTheme,
+  styled,
 } from '@ui-kitten/components';
 import {ScrollContainer, Box, Chip} from '../components';
 import {
@@ -47,13 +48,43 @@ const SymptomsScreen = ({navigation}) => {
           Symptoms of COVID-19
         </Text>
         <Layout style={styles.symptoms}>
-          <Chip>Fever</Chip>
-          <Chip outline>Head Ache</Chip>
+          <Box customStyle={{...styles.symptomsBox, marginRight: wp('2%')}}>
+            <Image
+              source={require('../assets/img/headache.png')}
+              style={styles.boxImg}
+            />
+            <Text style={styles.boxText}>Headache</Text>
+          </Box>
+          <Box customStyle={{...styles.symptomsBox, marginRight: wp('2%')}}>
+            <Image
+              source={require('../assets/img/cough.png')}
+              style={styles.boxImg}
+            />
+            <Text style={styles.boxText}>Cough</Text>
+          </Box>
+          <Box customStyle={{...styles.symptomsBox}}>
+            <Image
+              source={require('../assets/img/fever.png')}
+              style={styles.boxImg}
+            />
+            <Text style={styles.boxText}>High Fever</Text>
+          </Box>
+        </Layout>
+        <Text
+          style={{
+            color: theme['color-info-500'],
+            marginTop: hp('6%'),
+            fontSize: 16,
+          }}
+          category="s1">
+          Other Symptoms include:
+        </Text>
+        <Layout style={styles.symptoms}>
           <Chip>Sore Throat</Chip>
-          <Chip outline>Cough</Chip>
-          <Chip>Fatigue</Chip>
           <Chip outline>Running Nose</Chip>
-          <Chip>Sneezing</Chip>
+          <Chip>Fatigue</Chip>
+          <Chip outline>Sneezing</Chip>
+          <Chip>Vomiting</Chip>
         </Layout>
       </Layout>
     </ScrollContainer>
@@ -84,6 +115,7 @@ const themedStyles = StyleService.create({
   },
   content: {
     marginTop: 10,
+    marginBottom: 15,
     display: 'flex',
     flexDirection: 'column',
   },
@@ -102,5 +134,26 @@ const themedStyles = StyleService.create({
     flex: 1,
     // width: wp('100%'),
     flexWrap: 'wrap',
+  },
+  symptomsBox: {
+    backgroundColor: 'color-primary-200',
+    height: hp('20%'),
+    width: wp(28),
+    alignSelf: 'center',
+    paddingLeft: 0,
+    paddingRight: 0,
+    display: 'flex',
+  },
+  boxImg: {
+    alignSelf: 'center',
+    width: 60,
+    height: 70,
+    marginTop: -10,
+  },
+  boxText: {
+    color: 'white',
+    textAlign: 'center',
+    textTransform: 'uppercase',
+    justifyContent: 'flex-end',
   },
 });
