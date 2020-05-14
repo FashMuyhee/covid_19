@@ -44,38 +44,38 @@ const PreventionScreen = ({navigation}) => {
         <Text category="h6">Prevention</Text>
         <Box customStyle={styles.box}>
           <Image
-            source={require('../assets/img/symptoms.png')}
+            source={require('../assets/img/wearmask.png')}
             style={styles.image}
           />
           <Text category="h6" style={styles.boxText}>
-            Symptoms
+            Wear Mask
           </Text>
         </Box>
         <Box customStyle={styles.box}>
           <Image
-            source={require('../assets/img/prevention.png')}
+            source={require('../assets/img/cover.png')}
             style={styles.image}
           />
           <Text category="h6" style={styles.boxText}>
-            Prevent Getting Sick
+            COver nose when coughing or sneezing{' '}
           </Text>
         </Box>
         <Box customStyle={styles.box}>
           <Image
-            source={require('../assets/img/case.png')}
+            source={require('../assets/img/washhand.png')}
             style={styles.image}
           />
           <Text category="h6" style={styles.boxText}>
-            Cases and latest update
+            Wash hands regularly
           </Text>
         </Box>
         <Box customStyle={styles.box}>
           <Image
-            source={require('../assets/img/symptoms.png')}
+            source={require('../assets/img/home.png')}
             style={styles.image}
           />
           <Text category="h6" style={styles.boxText}>
-            Four
+            stay home stay safe
           </Text>
         </Box>
       </Layout>
@@ -124,14 +124,16 @@ const themedStyles = StyleService.create({
     justifyContent: 'space-between',
   },
   image: {
-    height: 70,
-    width: 70,
+    height: 60,
+    width: 60,
     marginBottom: 0,
+    marginTop: -10,
     // position: 'absolute',
   },
   boxText: {
     color: 'color-basic-100',
     textTransform: 'capitalize',
     width: wp('60%'),
+    justifyContent: 'center',
   },
 });
