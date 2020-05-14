@@ -49,7 +49,7 @@ const HomeScreen = ({navigation}) => {
             backgroundColor: theme['color-primary-200'],
             marginRight: wp('7%'),
           }}
-          onPress={()=>navigation.navigate('symptoms')}>
+          onPress={() => navigation.navigate('symptoms')}>
           <Image
             source={require('../assets/img/symptoms.png')}
             style={styles.image}
@@ -70,7 +70,7 @@ const HomeScreen = ({navigation}) => {
             ...styles.box,
             backgroundColor: theme['color-danger-400'],
           }}
-          onPress={()=>navigation.navigate('prevention')}>
+          onPress={() => navigation.navigate('prevention')}>
           <Image
             source={require('../assets/img/prevention.png')}
             style={styles.image}
@@ -91,7 +91,8 @@ const HomeScreen = ({navigation}) => {
             ...styles.box,
             backgroundColor: theme['color-warning-400'],
             marginRight: wp('7%'),
-          }}>
+          }}
+          onPress={() => navigation.navigate('cases')}>
           <Image
             source={require('../assets/img/case.png')}
             style={styles.image}
@@ -137,7 +138,7 @@ export default HomeScreen;
 const themedStyles = StyleService.create({
   container: {},
   headerText: {
-    height: hp('20%'),
+    height: hp('15%'),
     marginTop: hp('6%'),
   },
   card: {
