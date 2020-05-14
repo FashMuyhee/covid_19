@@ -6,17 +6,21 @@ import {
   LandingScreen,
   SymptomsScreen,
   PreventionScreen,
+  CasesScreen,
+  CaseDetailScreen,
 } from '../screens';
 
 const Stack = createStackNavigator();
 
 export const AppNavigator = () => (
   <NavigationContainer>
-    <Stack.Navigator headerMode="none" initialRouteName="prevention">
+    <Stack.Navigator headerMode="none" initialRouteName="landing">
       <Stack.Screen name="home" component={HomeScreen} />
       <Stack.Screen name="landing" component={LandingScreen} />
       <Stack.Screen name="symptoms" component={SymptomsScreen} />
       <Stack.Screen name="prevention" component={PreventionScreen} />
+      <Stack.Screen name="cases" component={CasesScreen} />
+      <Stack.Screen name="case_detail" component={CaseDetailScreen} />
     </Stack.Navigator>
   </NavigationContainer>
 );
