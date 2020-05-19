@@ -1,5 +1,5 @@
 /* eslint-disable react-native/no-inline-styles */
-import React, {useState} from 'react';
+import React, {useState, useEffect} from 'react';
 import {
   Text,
   Layout,
@@ -22,26 +22,21 @@ import {
   TouchableWithoutFeedback,
   KeyboardAvoidingView,
 } from 'react-native';
+import {inject, observer} from 'mobx-react';
 
-const CasesScreen = ({navigation}) => {
+const CasesScreen = ({navigation, store}) => {
   const currentDate = new Date().toDateString();
-  //   const currentDate = `${date[1]} ${date[2]}`;
   const styles = useStyleSheet(themedStyles);
   const theme = useTheme();
   const [state, setState] = useState({
     location: 'nigeria',
-    cases: [],
-    countries: [
-      {title: 'Star Wars'},
-      {title: 'Back to the Future'},
-      {title: 'The Matrix'},
-      {title: 'Inception'},
-      {title: 'Interstellar'},
-    ],
+    cases: null,
+    countries: store.countries,
   });
-  const {countries, location, cases} = state;
+  const {cases, globalCase, getCase, getCountries} = store;
+  const {countries, location, globalCases} = state;
   const filter = (item, query) =>
-    item.title.toLowerCase().includes(query.toLowerCase());
+    item.Country.toLowerCase().includes(query.toLowerCase());
 
   const locationChange = (value) => {
     setState({
@@ -51,7 +46,7 @@ const CasesScreen = ({navigation}) => {
     });
   };
   const onSelect = (index) => {
-    setState({...state, location: countries[index].title});
+    setState({...state, location: countries[index].Country});
   };
 
   const clearInput = () => {
@@ -68,6 +63,14 @@ const CasesScreen = ({navigation}) => {
     </TouchableWithoutFeedback>
   );
 
+  useEffect(() => {
+    // async () => {
+    getCase();
+    getCountries();
+    setState({...state, cases: cases, globalCase: globalCase});
+    // };
+  }, []);
+  console.log(countries);
   const renderOption = (item, index) => (
     <AutocompleteItem
       key={index}
@@ -97,23 +100,60 @@ const CasesScreen = ({navigation}) => {
         />
       </Box>
 
-      {/* <KeyboardAvoidingView> */}
       <Layout style={styles.content}>
-        <Autocomplete
-          value={location}
-          placeholder="Enter Location"
-          accessoryLeft={locationIcon}
-          accessoryRight={clearIcon}
-          onChangeText={(value) => locationChange(value)}
-          onSelect={onSelect}
-          style={styles.input}
-          textStyle={{textTransform: 'capitalize'}}>
-          {countries.map(renderOption)}
-        </Autocomplete>
+        <KeyboardAvoidingView behavior="position" enabled>
+          <Autocomplete
+            value={location}
+            placeholder="Enter Location"
+            accessoryLeft={locationIcon}
+            accessoryRight={clearIcon}
+            onChangeText={(value) => locationChange(value)}
+            onSelect={onSelect}
+            style={styles.input}
+            textStyle={{textTransform: 'capitalize'}}>
+            {countries.map(renderOption)}
+          </Autocomplete>
+          <Layout style={{marginTop: 10}}>
+            <Layout style={styles.caseLink}>
+              <Layout>
+                <Text category="h5">Case Update</Text>
+                <Text appearance="hint">Newest update {currentDate}</Text>
+              </Layout>
+              <Button
+                appearance="ghost"
+                onPress={() => navigation.navigate('case_detail')}>
+                <Text status="info"> See Details</Text>
+              </Button>
+            </Layout>
+            <Box customStyle={styles.case}>
+              <Box customStyle={styles.caseBox}>
+                <Radio checked={true} status="warning" />
+                <Text style={styles.boxText} category="h3" status="warning">
+                  9349
+                </Text>
+                <Text style={styles.boxText}>Infected</Text>
+              </Box>
+              <Box customStyle={styles.caseBox}>
+                <Radio checked={true} status="success" />
+                <Text style={styles.boxText} category="h3" status="success">
+                  6700
+                </Text>
+                <Text style={styles.boxText}>Recovered</Text>
+              </Box>
+              <Box customStyle={styles.caseBox}>
+                <Radio checked={true} status="danger" />
+                <Text style={styles.boxText} category="h3" status="danger">
+                  12
+                </Text>
+                <Text style={styles.boxText}>Deaths</Text>
+              </Box>
+            </Box>
+          </Layout>
+        </KeyboardAvoidingView>
         <Layout style={{marginTop: 10}}>
           <Layout style={styles.caseLink}>
             <Layout>
-              <Text category="h5">Case Update</Text>
+              <Text category="h5">Global Update</Text>
               <Text appearance="hint">Newest update {currentDate}</Text>
             </Layout>
             <Button
@@ -125,34 +165,34 @@ const CasesScreen = ({navigation}) => {
           <Box customStyle={styles.case}>
             <Box customStyle={styles.caseBox}>
               <Radio checked={true} status="warning" />
-              <Text style={styles.boxText} category="h3" status="warning">
-                9349
+              <Text style={styles.boxText} category="h5" status="warning">
+                {globalCase.NewConfirmed}
               </Text>
-              <Text style={styles.boxText}>Infected</Text>
+              <Text style={styles.boxText}> Infected</Text>
             </Box>
             <Box customStyle={styles.caseBox}>
               <Radio checked={true} status="success" />
-              <Text style={styles.boxText} category="h3" status="success">
-                6700
+              <Text style={styles.boxText} category="h5" status="success">
+                {globalCase.NewRecovered}
               </Text>
-              <Text style={styles.boxText}>Recovered</Text>
+              <Text style={styles.boxText}> Recovered</Text>
             </Box>
             <Box customStyle={styles.caseBox}>
               <Radio checked={true} status="danger" />
-              <Text style={styles.boxText} category="h3" status="danger">
-                12
+              <Text style={styles.boxText} category="h5" status="danger">
+                {globalCase.NewDeaths}
               </Text>
-              <Text style={styles.boxText}>Deaths</Text>
+              <Text style={styles.boxText}> Deaths</Text>
             </Box>
           </Box>
         </Layout>
       </Layout>
-      {/* </KeyboardAvoidingView> */}
     </ScrollContainer>
   );
 };
 
-export default CasesScreen;
+// export default CasesScreen;
+export default inject('store')(observer(CasesScreen));
 
 const themedStyles = StyleService.create({
   container: {},

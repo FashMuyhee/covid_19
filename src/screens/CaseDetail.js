@@ -35,7 +35,6 @@ const CaseDetailScreen = () => {
       <Layout style={styles.headerText}>
         <Text category="h5">Covid-19</Text>
         <Text category="h5">Nigeria : Case Detail</Text>
-        <Text appearance="hint">Newest update {currentDate}</Text>
       </Layout>
 
       <Box customStyle={styles.case}>
@@ -61,6 +60,10 @@ const CaseDetailScreen = () => {
           <Text style={styles.boxText}>Death Case</Text>
         </Box>
       </Box>
+      <Layout>
+        <Text category="h5">State Summary</Text>
+        <Text appearance="hint">{currentDate}</Text>
+      </Layout>
     </ScrollContainer>
   );
 };
