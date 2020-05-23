@@ -1,4 +1,4 @@
-import {decorate, observable, action} from 'mobx';
+import { decorate, observable, action } from 'mobx';
 import axios from 'axios';
 
 class Store {
@@ -1246,7 +1246,11 @@ class Store {
   ];
   globalCase = [];
   cases = [];
-  getCase = () => {
+  loading = false
+
+  getCases = () => {
+    this.loading = true;
+
     axios({
       method: 'get',
       url: `https://api.covid19api.com/summary`,
@@ -1255,14 +1259,14 @@ class Store {
       .then((res) => {
         this.globalCase = res.data.Global;
         this.cases = res.data.Countries;
+        this.loading = false;
         // console.log(this.cases, this.globalCase);
       })
       .catch((e) => {
+        this.loading = false;
         console.log(e);
       });
   };
-
-  getCaseUpdate = () => {};
 
   getCountries = () => {
     axios({
@@ -1282,8 +1286,7 @@ decorate(Store, {
   cases: observable,
   globalCase: observable,
   countries: observable,
-  getCaseUpdate: action,
   getCountries: action,
-  getCase: action,
+  getCases: action,
 });
 export default new Store();
