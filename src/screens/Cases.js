@@ -1,5 +1,5 @@
 /* eslint-disable react-native/no-inline-styles */
-import React, {useState, useEffect} from 'react';
+import React, { useState, useEffect } from 'react';
 import {
   Text,
   Layout,
@@ -12,7 +12,7 @@ import {
   Radio,
   Button,
 } from '@ui-kitten/components';
-import {ScrollContainer, Box} from '../components';
+import { ScrollContainer, Box } from '../components';
 import {
   heightPercentageToDP as hp,
   widthPercentageToDP as wp,
@@ -22,19 +22,19 @@ import {
   TouchableWithoutFeedback,
   KeyboardAvoidingView,
 } from 'react-native';
-import {inject, observer} from 'mobx-react';
+import { inject, observer } from 'mobx-react';
 
-const CasesScreen = ({navigation, store}) => {
+const CasesScreen = ({ navigation, store }) => {
   const currentDate = new Date().toDateString();
   const styles = useStyleSheet(themedStyles);
   const theme = useTheme();
   const [state, setState] = useState({
     location: 'nigeria',
-    cases: null,
+    lCase: {},
     countries: store.countries,
   });
-  const {cases, globalCase, getCase, getCountries} = store;
-  const {countries, location, globalCases} = state;
+  const { cases, globalCase, getCases, getCountries, loading } = store;
+  const { countries, location, lCase } = state;
   const filter = (item, query) =>
     item.Country.toLowerCase().includes(query.toLowerCase());
 
@@ -44,13 +44,29 @@ const CasesScreen = ({navigation, store}) => {
       location: value,
       countries: countries.filter((item) => filter(item, value)),
     });
+    // setLocation(location)
+    setCountryCase(location)
   };
   const onSelect = (index) => {
-    setState({...state, location: countries[index].Country});
+    setState({ ...state, location: countries[index].Country });
+    setCountryCase(location)
+    // setLocation(location)
+
   };
 
+  const setCountryCase = (country) => {
+    cases.Countries.filter((element) => {
+      if (
+        element.hasOwnProperty("Country") &&
+        element.Country.toLowerCase() === country
+      ) {
+        setState({ ...state, lCase: element })
+      }
+    })
+  }
+
   const clearInput = () => {
-    setState({...state, location: ' '});
+    setState({ ...state, location: ' ' });
   };
 
   const locationIcon = (props) => {
@@ -65,16 +81,15 @@ const CasesScreen = ({navigation, store}) => {
 
   useEffect(() => {
     // async () => {
-    getCase();
+    getCases();
     getCountries();
-    setState({...state, cases: cases, globalCase: globalCase});
     // };
   }, []);
-  console.log(countries);
+  // console.log(countries);
   const renderOption = (item, index) => (
     <AutocompleteItem
       key={index}
-      title={item.title}
+      title={item.Country}
       accessoryLeft={locationIcon}
     />
   );
@@ -85,8 +100,8 @@ const CasesScreen = ({navigation, store}) => {
         <Text category="h3">Case Update</Text>
       </Layout>
       <Box customStyle={styles.card}>
-        <Layout style={{backgroundColor: 'transparent', width: wp('50%')}}>
-          <Text category="h4" style={{...styles.text, textAlign: 'left'}}>
+        <Layout style={{ backgroundColor: 'transparent', width: wp('50%') }}>
+          <Text category="h4" style={{ ...styles.text, textAlign: 'left' }}>
             What you need is to stay at home.
           </Text>
         </Layout>
@@ -110,10 +125,10 @@ const CasesScreen = ({navigation, store}) => {
             onChangeText={(value) => locationChange(value)}
             onSelect={onSelect}
             style={styles.input}
-            textStyle={{textTransform: 'capitalize'}}>
+            textStyle={{ textTransform: 'capitalize' }}>
             {countries.map(renderOption)}
           </Autocomplete>
-          <Layout style={{marginTop: 10}}>
+          <Layout style={{ marginTop: 10 }}>
             <Layout style={styles.caseLink}>
               <Layout>
                 <Text category="h5">Case Update</Text>
@@ -121,7 +136,7 @@ const CasesScreen = ({navigation, store}) => {
               </Layout>
               <Button
                 appearance="ghost"
-                onPress={() => navigation.navigate('case_detail')}>
+                onPress={() => navigation.navigate('case_detail', { cases: lCase, location })}>
                 <Text status="info"> See Details</Text>
               </Button>
             </Layout>
@@ -129,28 +144,28 @@ const CasesScreen = ({navigation, store}) => {
               <Box customStyle={styles.caseBox}>
                 <Radio checked={true} status="warning" />
                 <Text style={styles.boxText} category="h3" status="warning">
-                  9349
+                  {lCase.NewConfirmed}
                 </Text>
                 <Text style={styles.boxText}>Infected</Text>
               </Box>
               <Box customStyle={styles.caseBox}>
                 <Radio checked={true} status="success" />
                 <Text style={styles.boxText} category="h3" status="success">
-                  6700
+                  {lCase.NewRecovered}
                 </Text>
                 <Text style={styles.boxText}>Recovered</Text>
               </Box>
               <Box customStyle={styles.caseBox}>
                 <Radio checked={true} status="danger" />
                 <Text style={styles.boxText} category="h3" status="danger">
-                  12
+                  {lCase.NewDeaths}
                 </Text>
                 <Text style={styles.boxText}>Deaths</Text>
               </Box>
             </Box>
           </Layout>
         </KeyboardAvoidingView>
-        <Layout style={{marginTop: 10}}>
+        <Layout style={{ marginTop: 10 }}>
           <Layout style={styles.caseLink}>
             <Layout>
               <Text category="h5">Global Update</Text>
@@ -158,10 +173,11 @@ const CasesScreen = ({navigation, store}) => {
             </Layout>
             <Button
               appearance="ghost"
-              onPress={() => navigation.navigate('case_detail')}>
+              onPress={() => navigation.navigate('case_detail', { cases: globalCase, location: 'global' })}>
               <Text status="info"> See Details</Text>
             </Button>
           </Layout>
+          <Text>{loading ? 'Loading' : 'Not Loading'}</Text>
           <Box customStyle={styles.case}>
             <Box customStyle={styles.caseBox}>
               <Radio checked={true} status="warning" />
