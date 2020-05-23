@@ -1245,7 +1245,7 @@ class Store {
     },
   ];
   globalCase = [];
-  cases = [];
+  cases ={}
   loading = false
 
   getCases = () => {

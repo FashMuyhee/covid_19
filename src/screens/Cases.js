@@ -30,8 +30,9 @@ const CasesScreen = ({ navigation, store }) => {
   const styles = useStyleSheet(themedStyles);
   const theme = useTheme();
   const [state, setState] = useState({
-    location: 'nigeria',
+    location: "nigeria",
     lCase: {},
+    nCase: {},
     countries: store.countries,
   });
   const { cases, globalCase, getCases, getCountries, loading } = store;
@@ -56,7 +57,7 @@ const CasesScreen = ({ navigation, store }) => {
   };
 
   const setCountryCase = (country) => {
-    cases.Countries.filter((element) => {
+    cases.filter((element) => {
       if (
         element.hasOwnProperty("Country") &&
         element.Country.toLowerCase() === country
@@ -81,12 +82,12 @@ const CasesScreen = ({ navigation, store }) => {
   );
 
   useEffect(() => {
-    // async () => {
     getCases();
     getCountries();
-    // };
+    setCountryCase(location)
+
   }, []);
-  // console.log(countries);
+
   const renderOption = (item, index) => (
     <AutocompleteItem
       key={index}
