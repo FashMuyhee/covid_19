@@ -1,5 +1,5 @@
 /* eslint-disable react-native/no-inline-styles */
-import React, {useState} from 'react';
+import React, { useState } from 'react';
 import {
   Text,
   Layout,
@@ -10,65 +10,86 @@ import {
   Radio,
   Button,
 } from '@ui-kitten/components';
-import {ScrollContainer, Box} from '../components';
+import { ScrollContainer, Box } from '../components';
 import {
   heightPercentageToDP as hp,
   widthPercentageToDP as wp,
 } from 'react-native-responsive-screen';
+import { inject, observer } from 'mobx-react';
 
-const CaseDetailScreen = () => {
+const CaseDetailScreen = ({ store, route }) => {
   const currentDate = new Date().toDateString();
   const styles = useStyleSheet(themedStyles);
   const theme = useTheme();
-  const [state] = useState({
-    location: 'nigeria',
-    cases: [],
-  });
-  const {location, cases} = state;
+  /*  const [state] = useState({
+     location: 'nigeria',
+     cases: [],
+   });
+   const { location, cases } = store; */
 
-  const locationIcon = (props) => {
-    return <Icon {...props} name="pin" />;
-  };
+  const { cases, location } = route.params
+  const closedCase = cases.TotalRecovered + cases.TotalDeaths
+  const activeCase = cases.TotalConfirmed - closedCase
 
   return (
     <ScrollContainer style={styles.container}>
       <Layout style={styles.headerText}>
-        <Text category="h5">Covid-19</Text>
-        <Text category="h5">Nigeria : Case Detail</Text>
+        <Text category="h5" style={{ textTransform: "capitalize" }}>{location} : Case Detail</Text>
+        <Text appearance="hint">{currentDate}</Text>
+        <Text category="h5" style={{ textTransform: "capitalize" }}>{cases.TotalConfirmed} : Total Confirmed Cases</Text>
       </Layout>
 
-      <Box customStyle={styles.case}>
-        <Box customStyle={styles.caseBox}>
-          <Radio checked={true} status="warning" />
-          <Text style={styles.boxText} category="h3" status="warning">
-            693494
-          </Text>
-          <Text style={styles.boxText}>Total Case</Text>
+      <Box customStyle={{ ...styles.case, backgroundColor: theme['color-primary-default'] }}>
+        <Box customStyle={{ ...styles.caseBox, width: wp(40) }}>
+          <Text style={{ ...styles.boxText, color: 'lime' }} category="h4" status="danger">Closed Case</Text>
         </Box>
-        <Box customStyle={styles.caseBox}>
-          <Radio checked={true} status="success" />
-          <Text style={styles.boxText} category="h3" status="success">
-            6700
-          </Text>
-          <Text style={styles.boxText}>Recovered Case</Text>
-        </Box>
-        <Box customStyle={styles.caseBox}>
-          <Radio checked={true} status="danger" />
-          <Text style={styles.boxText} category="h3" status="danger">
-            12
-          </Text>
-          <Text style={styles.boxText}>Death Case</Text>
-        </Box>
+        <Layout style={styles.innerBox}>
+          <Box customStyle={{ ...styles.caseBox, height: '50%', width: '100%' }}>
+            <Text style={styles.boxText} category="h5" status="danger">
+              {cases.TotalRecovered}
+            </Text>
+            <Text style={styles.boxText}>Recovered</Text>
+          </Box>
+          <Box customStyle={{ ...styles.caseBox, height: '50%', width: '100%' }}>
+            <Text style={styles.boxText} category="h5" status="danger">
+              {cases.TotalDeaths}
+            </Text>
+            <Text style={styles.boxText}>Deaths</Text>
+          </Box>
+        </Layout>
       </Box>
-      <Layout>
-        <Text category="h5">State Summary</Text>
-        <Text appearance="hint">{currentDate}</Text>
+      <Text category="h5" style={{ textTransform: "capitalize" }} status="success">{activeCase} : Active Cases Cases</Text>
+      <Layout style={{ marginTop: 10 }}>
+        <Text category="h5">Update</Text>
+        <Box customStyle={{ ...styles.case, marginTop: 10 }}>
+          <Box customStyle={styles.caseBox}>
+            <Radio checked={true} status="warning" />
+            <Text style={styles.boxText2} category="h3" status="warning">
+              {cases.NewConfirmed}
+            </Text>
+            <Text style={styles.boxText2}>Infected</Text>
+          </Box>
+          <Box customStyle={styles.caseBox}>
+            <Radio checked={true} status="success" />
+            <Text style={styles.boxText2} category="h3" status="success">
+              {cases.NewRecovered}
+            </Text>
+            <Text style={styles.boxText2}>Recovered</Text>
+          </Box>
+          <Box customStyle={styles.caseBox}>
+            <Radio checked={true} status="danger" />
+            <Text style={styles.boxText2} category="h3" status="danger">
+              {cases.NewDeaths}
+            </Text>
+            <Text style={styles.boxText2}>Deaths</Text>
+          </Box>
+        </Box>
       </Layout>
-    </ScrollContainer>
+    </ScrollContainer >
   );
 };
 
-export default CaseDetailScreen;
+export default inject('store')(observer(CaseDetailScreen));
 
 const themedStyles = StyleService.create({
   container: {},
@@ -102,5 +123,19 @@ const themedStyles = StyleService.create({
   },
   boxText: {
     textAlign: 'center',
+    color: 'white'
   },
+  boxText2: {
+    textAlign: 'center',
+  },
+  innerBox: {
+    backgroundColor: 'transparent',
+    display: 'flex',
+    justifyContent: 'space-between',
+    flexDirection: 'column',
+    width: wp(50),
+    alignItems: 'center',
+    /*   borderWidth: 1,
+      borderColor: 'orange' */
+  }
 });
