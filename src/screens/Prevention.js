@@ -8,12 +8,17 @@ import {
   useStyleSheet,
   useTheme,
 } from '@ui-kitten/components';
-import {ScrollContainer, Box} from '../components';
+import { ScrollContainer, Box } from '../components';
 import {
   heightPercentageToDP as hp,
   widthPercentageToDP as wp,
 } from 'react-native-responsive-screen';
-import {Image} from 'react-native';
+import { Image } from 'react-native';
+import doc from '../assets/img/doc.png'
+import wearmask from '../assets/img/wearmask.png'
+import cover from '../assets/img/cover.png'
+import washhand from '../assets/img/washhand.png'
+import home from '../assets/img/home.png'
 
 const PreventionScreen = () => {
   const styles = useStyleSheet(themedStyles);
@@ -25,14 +30,14 @@ const PreventionScreen = () => {
         <Text category="h3">Preventing Covid-19</Text>
       </Layout>
       <Box customStyle={styles.card}>
-        <Layout style={{backgroundColor: 'transparent', width: wp('53%')}}>
-          <Text category="h6" style={{...styles.text, textAlign: 'left'}}>
+        <Layout style={{ backgroundColor: 'transparent', width: wp('53%') }}>
+          <Text category="h6" style={{ ...styles.text, textAlign: 'left' }}>
             There is currently no vaccine to prevent this disease.You can
             protect yourself and help prevent the spread if you:
           </Text>
         </Layout>
         <Image
-          source={require('../assets/img/doc.png')}
+          source={doc}
           style={{
             height: hp('30%'),
             width: wp('30%'),
@@ -44,7 +49,7 @@ const PreventionScreen = () => {
         <Text category="h6">Prevention</Text>
         <Box customStyle={styles.box}>
           <Image
-            source={require('../assets/img/wearmask.png')}
+            source={wearmask}
             style={styles.image}
           />
           <Text category="h6" style={styles.boxText}>
@@ -53,7 +58,7 @@ const PreventionScreen = () => {
         </Box>
         <Box customStyle={styles.box}>
           <Image
-            source={require('../assets/img/cover.png')}
+            source={cover}
             style={styles.image}
           />
           <Text category="h6" style={styles.boxText}>
@@ -62,7 +67,7 @@ const PreventionScreen = () => {
         </Box>
         <Box customStyle={styles.box}>
           <Image
-            source={require('../assets/img/washhand.png')}
+            source={washhand}
             style={styles.image}
           />
           <Text category="h6" style={styles.boxText}>
@@ -71,7 +76,7 @@ const PreventionScreen = () => {
         </Box>
         <Box customStyle={styles.box}>
           <Image
-            source={require('../assets/img/home.png')}
+            source={home}
             style={styles.image}
           />
           <Text category="h6" style={styles.boxText}>

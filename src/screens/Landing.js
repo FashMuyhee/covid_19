@@ -1,6 +1,6 @@
 /* eslint-disable react-native/no-inline-styles */
 import React from 'react';
-import {StyleSheet, Image} from 'react-native';
+import { StyleSheet, Image } from 'react-native';
 import {
   Text,
   Layout,
@@ -14,9 +14,9 @@ import {
   heightPercentageToDP as hp,
   widthPercentageToDP as wp,
 } from 'react-native-responsive-screen';
-import {Container} from '../components';
-
-const LandingScreen = ({navigation}) => {
+import { Container } from '../components';
+import landing from '../assets/img/landing.png'
+const LandingScreen = ({ navigation }) => {
   const styles = useStyleSheet(themedStyles);
   const infiniteAnimationIconRef = React.useRef();
   const theme = useTheme();
@@ -28,7 +28,7 @@ const LandingScreen = ({navigation}) => {
   const ArrowIcon = () => (
     <Icon
       ref={infiniteAnimationIconRef}
-      animationConfig={{cycles: Infinity}}
+      animationConfig={{ cycles: Infinity }}
       animation="shake"
       name="arrow-ios-forward"
       fill={theme['color-basic-400']}
@@ -38,10 +38,10 @@ const LandingScreen = ({navigation}) => {
 
   return (
     <Container customStyle={styles.container}>
-      <Image source={require('../assets/img/landing.png')} style={styles.image} />
+      <Image source={landing} style={styles.image} />
       <Text style={styles.text}>What You Need To Know About</Text>
       <Text
-        style={{...styles.text, marginTop: 10, marginBottom: 10}}
+        style={{ ...styles.text, marginTop: 10, marginBottom: 10 }}
         category="h1">
         CORONAVIRUS (COVID19)
       </Text>

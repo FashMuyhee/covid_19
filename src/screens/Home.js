@@ -8,14 +8,18 @@ import {
   useStyleSheet,
   useTheme,
 } from '@ui-kitten/components';
-import {ScrollContainer, Box} from '../components';
+import { ScrollContainer, Box } from '../components';
 import {
   heightPercentageToDP as hp,
   widthPercentageToDP as wp,
 } from 'react-native-responsive-screen';
-import {Image} from 'react-native';
+import { Image } from 'react-native';
+import sick from '../assets/img/sick.png'
+import symptoms from '../assets/img/symptoms.png'
+import cases from '../assets/img/case.png'
+import prevention from '../assets/img/prevention.png'
 
-const HomeScreen = ({navigation}) => {
+const HomeScreen = ({ navigation }) => {
   const styles = useStyleSheet(themedStyles);
   const theme = useTheme();
   return (
@@ -25,8 +29,8 @@ const HomeScreen = ({navigation}) => {
         <Text category="h3">Virus Tracking</Text>
       </Layout>
       <Box customStyle={styles.card}>
-        <Layout style={{backgroundColor: 'transparent', width: wp('50%')}}>
-          <Text category="h4" style={{...styles.text, textAlign: 'left'}}>
+        <Layout style={{ backgroundColor: 'transparent', width: wp('50%') }}>
+          <Text category="h4" style={{ ...styles.text, textAlign: 'left' }}>
             What To Do if You're Sick ?
           </Text>
           <Button size="small" style={styles.btn}>
@@ -34,7 +38,7 @@ const HomeScreen = ({navigation}) => {
           </Button>
         </Layout>
         <Image
-          source={require('../assets/img/sick.png')}
+          source={sick}
           style={{
             height: hp('30%'),
             width: wp('30%'),
@@ -51,7 +55,7 @@ const HomeScreen = ({navigation}) => {
           }}
           onPress={() => navigation.navigate('symptoms')}>
           <Image
-            source={require('../assets/img/symptoms.png')}
+            source={symptoms}
             style={styles.image}
           />
           <Text
@@ -72,7 +76,7 @@ const HomeScreen = ({navigation}) => {
           }}
           onPress={() => navigation.navigate('prevention')}>
           <Image
-            source={require('../assets/img/prevention.png')}
+            source={prevention}
             style={styles.image}
           />
           <Text
@@ -94,7 +98,7 @@ const HomeScreen = ({navigation}) => {
           }}
           onPress={() => navigation.navigate('cases')}>
           <Image
-            source={require('../assets/img/case.png')}
+            source={cases}
             style={styles.image}
           />
           <Text
@@ -114,7 +118,7 @@ const HomeScreen = ({navigation}) => {
             backgroundColor: theme['color-info-400'],
           }}>
           <Image
-            source={require('../assets/img/symptoms.png')}
+            source={symptoms}
             style={styles.image}
           />
           <Text

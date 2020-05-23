@@ -8,12 +8,16 @@ import {
   useTheme,
   styled,
 } from '@ui-kitten/components';
-import {ScrollContainer, Box, Chip} from '../components';
+import { ScrollContainer, Box, Chip } from '../components';
 import {
   heightPercentageToDP as hp,
   widthPercentageToDP as wp,
 } from 'react-native-responsive-screen';
-import {Image} from 'react-native';
+import { Image } from 'react-native';
+import doc from '../assets/img/doc.png'
+import headache from '../assets/img/headache.png'
+import cough from '../assets/img/cough.png'
+import fever from '../assets/img/fever.png'
 
 const SymptomsScreen = () => {
   const styles = useStyleSheet(themedStyles);
@@ -27,14 +31,14 @@ const SymptomsScreen = () => {
       </Layout>
       <Layout style={styles.content}>
         <Box customStyle={styles.box}>
-          <Layout style={{backgroundColor: 'transparent', width: wp('53%')}}>
-            <Text category="h6" style={{...styles.text, textAlign: 'left'}}>
+          <Layout style={{ backgroundColor: 'transparent', width: wp('53%') }}>
+            <Text category="h6" style={{ ...styles.text, textAlign: 'left' }}>
               People may get sick with the VIRUS for 1 to 14 days before
               developing any Symptoms
             </Text>
           </Layout>
           <Image
-            source={require('../assets/img/doc.png')}
+            source={doc}
             style={{
               height: hp('30%'),
               width: wp('30%'),
@@ -43,28 +47,28 @@ const SymptomsScreen = () => {
           />
         </Box>
         <Text
-          style={{color: theme['color-info-500'], marginTop: hp('6%')}}
+          style={{ color: theme['color-info-500'], marginTop: hp('6%') }}
           category="h5">
           Symptoms of COVID-19
         </Text>
         <Layout style={styles.symptoms}>
-          <Box customStyle={{...styles.symptomsBox, marginRight: wp('2%')}}>
+          <Box customStyle={{ ...styles.symptomsBox, marginRight: wp('2%') }}>
             <Image
-              source={require('../assets/img/headache.png')}
+              source={headache}
               style={styles.boxImg}
             />
             <Text style={styles.boxText}>Headache</Text>
           </Box>
-          <Box customStyle={{...styles.symptomsBox, marginRight: wp('2%')}}>
+          <Box customStyle={{ ...styles.symptomsBox, marginRight: wp('2%') }}>
             <Image
-              source={require('../assets/img/cough.png')}
+              source={cough}
               style={styles.boxImg}
             />
             <Text style={styles.boxText}>Cough</Text>
           </Box>
-          <Box customStyle={{...styles.symptomsBox}}>
+          <Box customStyle={{ ...styles.symptomsBox }}>
             <Image
-              source={require('../assets/img/fever.png')}
+              source={fever}
               style={styles.boxImg}
             />
             <Text style={styles.boxText}>High Fever</Text>

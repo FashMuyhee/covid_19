@@ -23,6 +23,7 @@ import {
   KeyboardAvoidingView,
 } from 'react-native';
 import { inject, observer } from 'mobx-react';
+import doc from '../assets/img/doc.png'
 
 const CasesScreen = ({ navigation, store }) => {
   const currentDate = new Date().toDateString();
@@ -106,7 +107,7 @@ const CasesScreen = ({ navigation, store }) => {
           </Text>
         </Layout>
         <Image
-          source={require('../assets/img/doc.png')}
+          source={doc}
           style={{
             height: hp('30%'),
             width: wp('30%'),
