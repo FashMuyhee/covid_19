@@ -33,9 +33,7 @@ const HomeScreen = ({ navigation }) => {
           <Text category="h4" style={{ ...styles.text, textAlign: 'left' }}>
             What To Do if You're Sick ?
           </Text>
-          <Button size="small" style={styles.btn}>
-            Learn More
-          </Button>
+          <Text style={{ ...styles.text, textAlign: 'left' }} > Please Stay at HOME</Text>
         </Layout>
         <Image
           source={sick}
