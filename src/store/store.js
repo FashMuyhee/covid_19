@@ -1286,6 +1286,7 @@ decorate(Store, {
   cases: observable,
   globalCase: observable,
   countries: observable,
+  loading:observable,
   getCountries: action,
   getCases: action,
 });
