@@ -1,5 +1,5 @@
 import React from 'react';
-import {Modal, View} from 'react-native';
+import { Modal as RNModal, View } from 'react-native';
 import {
   StyleService,
   useStyleSheet,
@@ -13,60 +13,28 @@ import {
   widthPercentageToDP as wp,
   heightPercentageToDP as hp,
 } from 'react-native-responsive-screen';
+import { TouchableWithoutFeedback } from '@ui-kitten/components/devsupport';
 
 const Modal = ({
   isVisible,
   closeModal,
-  warn,
-  btnText,
-  message,
-  subtitle,
+  btnText, children
 }) => {
   const styles = useStyleSheet(themedStyles);
-  const theme = useTheme();
-  const pulseIconRef = React.useRef();
-
-  /*  React.useEffect(() => {
-    pulseIconRef.current.startAnimation();
-  }, []); */
 
   return (
-    <Modal
+    <RNModal
       style={styles.modal}
       transparent={false}
       visible={isVisible}
       animationType="slide">
+      <View style={styles.closeBtn}>
+        <Icon name="arrow-ios-forward" fill='black' width={40} height={40} onPress={closeModal} />
+      </View>
       <Layout style={styles.content}>
-        <View style={warn ? styles.iconWarnContainer : styles.iconContainer}>
-          {warn ? (
-            <Icon
-              name="alert-triangle-outline"
-              style={styles.icon}
-              fill={theme['color-danger-default']}
-              ref={pulseIconRef}
-              animation="pulse"
-            />
-          ) : (
-            <Icon
-              name="checkmark"
-              style={styles.icon}
-              fill={theme['background-basic-color-1']}
-              ref={pulseIconRef}
-              animation="pulse"
-            />
-          )}
-        </View>
-        <View style={styles.textContainer}>
-          <Text style={styles.boldText}>{message}</Text>
-          <Text appearance="hint" style={styles.subtitleText}>
-            {subtitle}
-          </Text>
-        </View>
-        <Button style={styles.btn} onPress={closeModal}>
-          {btnText}
-        </Button>
+        {children}
       </Layout>
-    </Modal>
+    </RNModal>
   );
 };
 
@@ -75,48 +43,22 @@ const themedStyles = StyleService.create({
   content: {
     width: wp('100%'),
     height: hp('100%'),
-    paddingLeft: wp('10%'),
-    paddingRight: wp('10%'),
-    paddingTop: hp('20%'),
     display: 'flex',
-    alignItems: 'center',
-  },
-  iconContainer: {
-    backgroundColor: 'color-primary-default',
-    height: hp('20%'),
-    width: wp('35%'),
-    borderRadius: 100,
-  },
-  iconWarnContainer: {
-    // backgroundColor: 'color-danger-default',
-    height: hp('20%'),
-    width: wp('30%'),
-    borderRadius: 100,
-  },
-  icon: {
-    width: wp('25%'),
-    height: hp('20%'),
-    alignSelf: 'center',
-  },
-  textContainer: {
-    textAlign: 'center',
-    width: wp('50%'),
-  },
-  boldText: {
-    fontWeight: 'bold',
-    textAlign: 'center',
-    fontSize: hp('2.3%'),
-    paddingTop: hp('10%'),
-    paddingBottom: hp('5%'),
-  },
-  subtitleText: {
-    textAlign: 'center',
-    fontSize: hp('2%'),
-    paddingBottom: hp('5%'),
+    // alignItems: 'center',
   },
   btn: {
     width: '100%',
+    position: 'absolute',
+    bottom: 0,
     marginTop: hp('4%'),
     marginBottom: hp('4%'),
   },
+  closeBtn: {
+    display: 'flex',
+    justifyContent: 'flex-end',
+    flexDirection: 'row',
+    paddingRight: 25,
+    paddingBottom: 15,
+    paddingTop: 15,
+  }
 });
