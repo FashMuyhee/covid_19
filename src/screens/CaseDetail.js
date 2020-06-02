@@ -1,5 +1,5 @@
 /* eslint-disable react-native/no-inline-styles */
-import React, { useState } from 'react';
+import React, {useState, useEffect} from 'react';
 import {
   Text,
   Layout,
@@ -9,83 +9,112 @@ import {
   Icon,
   Radio,
   Button,
+  styled,
 } from '@ui-kitten/components';
-import { ScrollContainer, Box } from '../components';
+import {ScrollContainer, Box} from '../components';
 import {
   heightPercentageToDP as hp,
   widthPercentageToDP as wp,
 } from 'react-native-responsive-screen';
-import { inject, observer } from 'mobx-react';
+import {inject, observer} from 'mobx-react';
+import {DataTable} from 'react-native-paper';
+import {ScrollView} from 'react-native';
 
-const CaseDetailScreen = ({ store, route }) => {
+const CaseDetailScreen = ({store, route,navigation}) => {
   const currentDate = new Date().toDateString();
   const styles = useStyleSheet(themedStyles);
   const theme = useTheme();
-  /*  const [state] = useState({
-     location: 'nigeria',
-     cases: [],
-   });
-   const { location, cases } = store; */
+ 
+  const {g_cases, location} = route.params;
 
-  const { cases, location } = route.params
-  const closedCase = cases.TotalRecovered + cases.TotalDeaths
-  const activeCase = cases.TotalConfirmed - closedCase
+  const closedCase = g_cases.TotalRecovered + g_cases.TotalDeaths;
+  const activeCase = g_cases.TotalConfirmed - closedCase;
+  
+  const itemsPerPage = 7;
+  const [page, setPage] = React.useState(0);
+  const from = page * itemsPerPage;
+  const to = (page + 1) * itemsPerPage;
+  
 
   return (
     <ScrollContainer style={styles.container}>
       <Layout style={styles.headerText}>
-        <Text category="h5" style={{ textTransform: "capitalize" }}>{location} : Case Detail</Text>
+        <Text category="h5" style={{textTransform: 'capitalize'}}>
+          {location} : Case Detail
+        </Text>
         <Text appearance="hint">{currentDate}</Text>
-        <Text category="h5" style={{ textTransform: "capitalize" }}>{cases.TotalConfirmed} : Total Confirmed Cases</Text>
+        <Text category="h5" style={{textTransform: 'capitalize'}}>
+          {g_cases.TotalConfirmed} : Total Confirmed Cases
+        </Text>
       </Layout>
 
-      <Box customStyle={{ ...styles.case, backgroundColor: theme['color-primary-default'] }}>
-        <Box customStyle={{ ...styles.caseBox, width: wp(40) }}>
-          <Text style={{ ...styles.boxText, color: 'lime' }} category="h4" status="danger">Closed Case</Text>
+      <Box
+        customStyle={{
+          ...styles.case,
+          backgroundColor: theme['color-primary-default'],
+        }}>
+        <Box customStyle={{...styles.caseBox, width: wp(40)}}>
+          <Text
+            style={{...styles.boxText, color: 'lime'}}
+            category="h4"
+            status="danger">
+            Closed Case
+          </Text>
         </Box>
         <Layout style={styles.innerBox}>
-          <Box customStyle={{ ...styles.caseBox, height: '50%', width: '100%' }}>
+          <Box customStyle={{...styles.caseBox, height: '50%', width: '100%'}}>
             <Text style={styles.boxText} category="h5" status="danger">
-              {cases.TotalRecovered}
+              {g_cases.TotalRecovered}
             </Text>
             <Text style={styles.boxText}>Recovered</Text>
           </Box>
-          <Box customStyle={{ ...styles.caseBox, height: '50%', width: '100%' }}>
+          <Box customStyle={{...styles.caseBox, height: '50%', width: '100%'}}>
             <Text style={styles.boxText} category="h5" status="danger">
-              {cases.TotalDeaths}
+              {g_cases.TotalDeaths}
             </Text>
             <Text style={styles.boxText}>Deaths</Text>
           </Box>
         </Layout>
       </Box>
-      <Text category="h5" style={{ textTransform: "capitalize" }} status="success">{activeCase} : Active Cases Cases</Text>
-      <Layout style={{ marginTop: 10 }}>
+      <Text
+        category="h5"
+        style={{textTransform: 'capitalize'}}
+        status="success">
+        {activeCase} : Active Cases Cases
+      </Text>
+      <Layout style={{marginTop: 10}}>
         <Text category="h5">Update</Text>
-        <Box customStyle={{ ...styles.case, marginTop: 10 }}>
+        <Box customStyle={{...styles.case, marginTop: 10}}>
           <Box customStyle={styles.caseBox}>
             <Radio checked={true} status="warning" />
             <Text style={styles.boxText2} category="h3" status="warning">
-              {cases.NewConfirmed}
+              {g_cases.NewConfirmed}
             </Text>
             <Text style={styles.boxText2}>Infected</Text>
           </Box>
           <Box customStyle={styles.caseBox}>
             <Radio checked={true} status="success" />
             <Text style={styles.boxText2} category="h3" status="success">
-              {cases.NewRecovered}
+              {g_cases.NewRecovered}
             </Text>
             <Text style={styles.boxText2}>Recovered</Text>
           </Box>
           <Box customStyle={styles.caseBox}>
             <Radio checked={true} status="danger" />
             <Text style={styles.boxText2} category="h3" status="danger">
-              {cases.NewDeaths}
+              {g_cases.NewDeaths}
             </Text>
             <Text style={styles.boxText2}>Deaths</Text>
           </Box>
         </Box>
+        <Button
+          appearance="ghost"
+          style={{marginBottom: 15}}
+          onPress={() => navigation.navigate('more')}>
+          More
+        </Button>
       </Layout>
-    </ScrollContainer >
+    </ScrollContainer>
   );
 };
 
@@ -123,7 +152,7 @@ const themedStyles = StyleService.create({
   },
   boxText: {
     textAlign: 'center',
-    color: 'white'
+    color: 'white',
   },
   boxText2: {
     textAlign: 'center',
@@ -137,5 +166,22 @@ const themedStyles = StyleService.create({
     alignItems: 'center',
     /*   borderWidth: 1,
       borderColor: 'orange' */
-  }
+  },
+  tHeader: {
+    backgroundColor: 'color-info-200',
+    height: 55,
+  },
+  theaderText: {
+    textTransform: 'capitalize',
+    textAlign: 'center',
+    color: 'white',
+  },
+  tableContent: {
+    paddingLeft: '0%',
+    paddingRight: '0%',
+  },
+  cellText: {
+    color: 'color-info-300',
+    textAlign: 'center',
+  },
 });
