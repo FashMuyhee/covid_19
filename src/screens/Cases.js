@@ -1,5 +1,5 @@
 /* eslint-disable react-native/no-inline-styles */
-import React, { useState, useEffect } from 'react';
+import React, {useState, useEffect} from 'react';
 import {
   Text,
   Layout,
@@ -11,99 +11,74 @@ import {
   Icon,
   Radio,
   Button,
+  Input,
 } from '@ui-kitten/components';
-import { ScrollContainer, Box } from '../components';
+import {ScrollContainer, Box} from '../components';
 import {
   heightPercentageToDP as hp,
   widthPercentageToDP as wp,
 } from 'react-native-responsive-screen';
-import {
-  Image,
-  TouchableWithoutFeedback,
-  KeyboardAvoidingView,
-} from 'react-native';
-import { inject, observer } from 'mobx-react';
-import doc from '../assets/img/doc.png'
+import {Image, ActivityIndicator, RefreshControl} from 'react-native';
+import {inject, observer} from 'mobx-react';
+import doc from '../assets/img/doc.png';
 
-const CasesScreen = ({ navigation, store }) => {
+const CasesScreen = ({navigation, store}) => {
   const currentDate = new Date().toDateString();
   const styles = useStyleSheet(themedStyles);
   const theme = useTheme();
   const [state, setState] = useState({
-    location: "nigeria",
+    location: 'nigeria',
     lCase: {},
-    nCase: {},
     countries: store.countries,
+    refreshing: false,
   });
-  const { cases, globalCase, getCases, getCountries, loading } = store;
-  const { countries, location, lCase } = state;
-  const filter = (item, query) =>
-    item.Country.toLowerCase().includes(query.toLowerCase());
+  const {cases, globalCase, getCases, getCountries, loading} = store;
+  const {location, lCase, refreshing} = state;
 
-  const locationChange = (value) => {
-    setState({
-      ...state,
-      location: value,
-      countries: countries.filter((item) => filter(item, value)),
-    });
-    // setLocation(location)
-    setCountryCase(location)
-  };
-  const onSelect = (index) => {
-    setState({ ...state, location: countries[index].Country });
-    setCountryCase(location)
-    // setLocation(location)
-
-  };
-
-  const setCountryCase = (country) => {
-    cases.filter((element) => {
+  const setCountryCase = () => {
+    cases.forEach((element) => {
       if (
-        element.hasOwnProperty("Country") &&
-        element.Country.toLowerCase() === country
+        element.hasOwnProperty('Country') &&
+        element.Country.toLowerCase() === 'nigeria'
       ) {
-        setState({ ...state, lCase: element })
+        setState({...state, lCase: element});
+        console.log('lcase' + lCase);
       }
-    })
-  }
-
-  const clearInput = () => {
-    setState({ ...state, location: ' ' });
+    });
   };
 
-  const locationIcon = (props) => {
+  const LocationIcon = (props) => {
     return <Icon {...props} name="pin" />;
   };
 
-  const clearIcon = (props) => (
-    <TouchableWithoutFeedback onPress={clearInput}>
-      <Icon {...props} name="close" />
-    </TouchableWithoutFeedback>
-  );
-
-  useEffect(() => {
-    getCases();
-    getCountries();
-    setCountryCase(location)
-
+  const onRender = async () => {
+    // setState({...state, refreshing: true});
+    await getCountries();
+    await getCases();
+    // setState({...state, refreshing: false});
+  };
+  useEffect( async () => {
+    await onRender();
+    setCountryCase();
   }, []);
-
-  const renderOption = (item, index) => (
-    <AutocompleteItem
-      key={index}
-      title={item.Country}
-      accessoryLeft={locationIcon}
-    />
-  );
+  
   return (
-    <ScrollContainer style={styles.container}>
+    <ScrollContainer
+      style={styles.container}
+      refreshControl={
+        <RefreshControl
+          refreshing={refreshing}
+          onRefresh={onRender}
+          colors={theme['color-primary-500']}
+        />
+      }>
       <Layout style={styles.headerText}>
         <Text category="h5">Covid-19</Text>
         <Text category="h3">Case Update</Text>
       </Layout>
       <Box customStyle={styles.card}>
-        <Layout style={{ backgroundColor: 'transparent', width: wp('50%') }}>
-          <Text category="h4" style={{ ...styles.text, textAlign: 'left' }}>
+        <Layout style={{backgroundColor: 'transparent', width: wp('50%')}}>
+          <Text category="h4" style={{...styles.text, textAlign: 'left'}}>
             What you need is to stay at home.
           </Text>
         </Layout>
@@ -118,56 +93,55 @@ const CasesScreen = ({ navigation, store }) => {
       </Box>
 
       <Layout style={styles.content}>
-        <KeyboardAvoidingView behavior="position" enabled>
-          <Autocomplete
-            value={location}
-            placeholder="Enter Location"
-            accessoryLeft={locationIcon}
-            accessoryRight={clearIcon}
-            onChangeText={(value) => locationChange(value)}
-            onSelect={onSelect}
-            style={styles.input}
-            textStyle={{ textTransform: 'capitalize' }}>
-            {countries.map(renderOption)}
-          </Autocomplete>
-          <Layout style={{ marginTop: 10 }}>
-            <Layout style={styles.caseLink}>
-              <Layout>
-                <Text category="h5">Case Update</Text>
-                <Text appearance="hint">Newest update {currentDate}</Text>
-              </Layout>
-              <Button
-                appearance="ghost"
-                onPress={() => navigation.navigate('case_detail', { cases: lCase, location })}>
-                <Text status="info"> See Details</Text>
-              </Button>
+        <Layout style={{marginTop: 10}}>
+          <Layout style={styles.caseLink}>
+            <Layout>
+              <Text category="h5">Nigeria Update</Text>
+              <Text appearance="hint">Lastest update {currentDate}</Text>
             </Layout>
-            <Box customStyle={styles.case}>
-              <Box customStyle={styles.caseBox}>
-                <Radio checked={true} status="warning" />
-                <Text style={styles.boxText} category="h3" status="warning">
-                  {lCase.NewConfirmed}
-                </Text>
-                <Text style={styles.boxText}>Infected</Text>
-              </Box>
-              <Box customStyle={styles.caseBox}>
-                <Radio checked={true} status="success" />
-                <Text style={styles.boxText} category="h3" status="success">
-                  {lCase.NewRecovered}
-                </Text>
-                <Text style={styles.boxText}>Recovered</Text>
-              </Box>
-              <Box customStyle={styles.caseBox}>
-                <Radio checked={true} status="danger" />
-                <Text style={styles.boxText} category="h3" status="danger">
-                  {lCase.NewDeaths}
-                </Text>
-                <Text style={styles.boxText}>Deaths</Text>
-              </Box>
-            </Box>
+            <Button
+              appearance="ghost"
+              onPress={() =>
+                navigation.navigate('result', {cases: lCase, location})
+              }>
+              <Text status="info"> See Details</Text>
+            </Button>
           </Layout>
-        </KeyboardAvoidingView>
-        <Layout style={{ marginTop: 10 }}>
+          <Box customStyle={styles.case}>
+            {loading ? (
+              <ActivityIndicator
+                size="large"
+                color={theme['color-primary-400']}
+                style={{marginLeft: wp(43)}}
+              />
+            ) : (
+              <>
+                <Box customStyle={styles.caseBox}>
+                  <Radio checked={true} status="warning" />
+                  <Text style={styles.boxText} category="h5" status="warning">
+                    {lCase.NewConfirmed}
+                  </Text>
+                  <Text style={styles.boxText}> Infected</Text>
+                </Box>
+                <Box customStyle={styles.caseBox}>
+                  <Radio checked={true} status="success" />
+                  <Text style={styles.boxText} category="h5" status="success">
+                    {lCase.NewRecovered}
+                  </Text>
+                  <Text style={styles.boxText}> Recovered</Text>
+                </Box>
+                <Box customStyle={styles.caseBox}>
+                  <Radio checked={true} status="danger" />
+                  <Text style={styles.boxText} category="h5" status="danger">
+                    {lCase.NewDeaths}
+                  </Text>
+                  <Text style={styles.boxText}> Deaths</Text>
+                </Box>
+              </>
+            )}
+          </Box>
+        </Layout>
+        <Layout style={{marginTop: 10}}>
           <Layout style={styles.caseLink}>
             <Layout>
               <Text category="h5">Global Update</Text>
@@ -175,33 +149,47 @@ const CasesScreen = ({ navigation, store }) => {
             </Layout>
             <Button
               appearance="ghost"
-              onPress={() => navigation.navigate('case_detail', { cases: globalCase, location: 'global' })}>
+              onPress={() =>
+                navigation.navigate('case_detail', {
+                  g_cases: globalCase,
+                  location: 'global',
+                })
+              }>
               <Text status="info"> See Details</Text>
             </Button>
           </Layout>
-          <Text>{loading ? 'Loading' : 'Not Loading'}</Text>
           <Box customStyle={styles.case}>
-            <Box customStyle={styles.caseBox}>
-              <Radio checked={true} status="warning" />
-              <Text style={styles.boxText} category="h5" status="warning">
-                {globalCase.NewConfirmed}
-              </Text>
-              <Text style={styles.boxText}> Infected</Text>
-            </Box>
-            <Box customStyle={styles.caseBox}>
-              <Radio checked={true} status="success" />
-              <Text style={styles.boxText} category="h5" status="success">
-                {globalCase.NewRecovered}
-              </Text>
-              <Text style={styles.boxText}> Recovered</Text>
-            </Box>
-            <Box customStyle={styles.caseBox}>
-              <Radio checked={true} status="danger" />
-              <Text style={styles.boxText} category="h5" status="danger">
-                {globalCase.NewDeaths}
-              </Text>
-              <Text style={styles.boxText}> Deaths</Text>
-            </Box>
+            {loading ? (
+              <ActivityIndicator
+                size="large"
+                color={theme['color-primary-400']}
+                style={{marginLeft: wp(43)}}
+              />
+            ) : (
+              <>
+                <Box customStyle={styles.caseBox}>
+                  <Radio checked={true} status="warning" />
+                  <Text style={styles.boxText} category="h5" status="warning">
+                    {globalCase.NewConfirmed}
+                  </Text>
+                  <Text style={styles.boxText}> Infected</Text>
+                </Box>
+                <Box customStyle={styles.caseBox}>
+                  <Radio checked={true} status="success" />
+                  <Text style={styles.boxText} category="h5" status="success">
+                    {globalCase.NewRecovered}
+                  </Text>
+                  <Text style={styles.boxText}> Recovered</Text>
+                </Box>
+                <Box customStyle={styles.caseBox}>
+                  <Radio checked={true} status="danger" />
+                  <Text style={styles.boxText} category="h5" status="danger">
+                    {globalCase.NewDeaths}
+                  </Text>
+                  <Text style={styles.boxText}> Deaths</Text>
+                </Box>
+              </>
+            )}
           </Box>
         </Layout>
       </Layout>
