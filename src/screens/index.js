@@ -5,6 +5,7 @@ import SymptomsScreen from './Symptoms';
 import CasesScreen from './Cases';
 import CaseDetailScreen from './CaseDetail';
 import ResultScreen from './Result';
+import MoreScreen from './More';
 
 export {
   HomeScreen,
@@ -13,5 +14,6 @@ export {
   SymptomsScreen,
   CasesScreen,
   CaseDetailScreen,
-  ResultScreen
+  ResultScreen,
+  MoreScreen
 };
