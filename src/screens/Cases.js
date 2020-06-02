@@ -57,8 +57,8 @@ const CasesScreen = ({navigation, store}) => {
     await getCases();
     // setState({...state, refreshing: false});
   };
-  useEffect( async () => {
-    await onRender();
+  useEffect(() => {
+    onRender();
     setCountryCase();
   }, []);
   
