@@ -8,18 +8,18 @@ import {
   useStyleSheet,
   useTheme,
 } from '@ui-kitten/components';
-import { ScrollContainer, Box } from '../components';
+import {ScrollContainer, Box} from '../components';
 import {
   heightPercentageToDP as hp,
   widthPercentageToDP as wp,
 } from 'react-native-responsive-screen';
-import { Image } from 'react-native';
-import sick from '../assets/img/sick.png'
-import symptoms from '../assets/img/symptoms.png'
-import cases from '../assets/img/case.png'
-import prevention from '../assets/img/prevention.png'
+import {Image} from 'react-native';
+import sick from '../assets/img/sick.png';
+import symptoms from '../assets/img/symptoms.png';
+import cases from '../assets/img/case.png';
+import prevention from '../assets/img/prevention.png';
 
-const HomeScreen = ({ navigation }) => {
+const HomeScreen = ({navigation}) => {
   const styles = useStyleSheet(themedStyles);
   const theme = useTheme();
   return (
@@ -29,11 +29,14 @@ const HomeScreen = ({ navigation }) => {
         <Text category="h3">Virus Tracking</Text>
       </Layout>
       <Box customStyle={styles.card}>
-        <Layout style={{ backgroundColor: 'transparent', width: wp('50%') }}>
-          <Text category="h4" style={{ ...styles.text, textAlign: 'left' }}>
+        <Layout style={{backgroundColor: 'transparent', width: wp('50%')}}>
+          <Text category="h4" style={{...styles.text, textAlign: 'left'}}>
             What To Do if You're Sick ?
           </Text>
-          <Text style={{ ...styles.text, textAlign: 'left' }} > Please Stay at HOME</Text>
+          <Text style={{...styles.text, textAlign: 'left'}}>
+            {' '}
+            Please Stay at HOME
+          </Text>
         </Layout>
         <Image
           source={sick}
@@ -52,10 +55,7 @@ const HomeScreen = ({ navigation }) => {
             marginRight: wp('7%'),
           }}
           onPress={() => navigation.navigate('symptoms')}>
-          <Image
-            source={symptoms}
-            style={styles.image}
-          />
+          <Image source={symptoms} style={styles.image} />
           <Text
             category="h5"
             style={{
@@ -73,10 +73,7 @@ const HomeScreen = ({ navigation }) => {
             backgroundColor: theme['color-danger-400'],
           }}
           onPress={() => navigation.navigate('prevention')}>
-          <Image
-            source={prevention}
-            style={styles.image}
-          />
+          <Image source={prevention} style={styles.image} />
           <Text
             category="h5"
             style={{
@@ -88,29 +85,7 @@ const HomeScreen = ({ navigation }) => {
             Prevent Getting Sick
           </Text>
         </Box>
-        <Box
-          customStyle={{
-            ...styles.box,
-            backgroundColor: theme['color-warning-400'],
-            marginRight: wp('7%'),
-          }}
-          onPress={() => navigation.navigate('cases')}>
-          <Image
-            source={cases}
-            style={styles.image}
-          />
-          <Text
-            category="h5"
-            style={{
-              ...styles.text,
-              bottom: 10,
-              alignSelf: 'center',
-              position: 'absolute',
-            }}>
-            Cases and latest update
-          </Text>
-        </Box>
-        <Box
+        {/*  <Box
           customStyle={{
             ...styles.box,
             backgroundColor: theme['color-info-400'],
@@ -127,10 +102,27 @@ const HomeScreen = ({ navigation }) => {
               alignSelf: 'center',
               position: 'absolute',
             }}>
-            Four
+            Exit
           </Text>
-        </Box>
+        </Box> */}
       </Layout>
+      <Box
+        customStyle={{
+          backgroundColor: theme['color-warning-400'],
+        }}
+        onPress={() => navigation.navigate('cases')}>
+        <Image source={cases} style={styles.image} />
+        <Text
+          category="h5"
+          style={{
+            ...styles.text,
+            bottom: 10,
+            alignSelf: 'center',
+            position: 'absolute',
+          }}>
+          Cases and latest update
+        </Text>
+      </Box>
     </ScrollContainer>
   );
 };
