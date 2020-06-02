@@ -29,7 +29,7 @@ const Modal = ({
       visible={isVisible}
       animationType="slide">
       <View style={styles.closeBtn}>
-        <Icon name="arrow-ios-forward" fill='black' width={40} height={40} onPress={closeModal} />
+        <Icon name="close-outline" fill='black' width={40} height={40} onPress={closeModal} />
       </View>
       <Layout style={styles.content}>
         {children}
