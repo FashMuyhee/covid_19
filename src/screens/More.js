@@ -7,12 +7,12 @@ import {
   Text,
   StyleService,
   useStyleSheet,
-  useTheme, 
+  useTheme,
   Button,
   styled,
 } from '@ui-kitten/components';
 const MoreScreen = ({store}) => {
-  const theme = useTheme()
+  const theme = useTheme();
   const {cases} = store;
   const tableHead = [
     {id: 1, title: 'Rank'},
@@ -21,7 +21,7 @@ const MoreScreen = ({store}) => {
     {id: 4, title: 'Recovered'},
     {id: 5, title: 'Death'},
   ];
- 
+
   return (
     <Container>
       <DataTable>
@@ -44,27 +44,31 @@ const MoreScreen = ({store}) => {
           })}
         </DataTable.Header>
         <ScrollView>
-          {cases.map((data, key) => {
-            return (
-              <DataTable.Row key={key}>
-                <DataTable.Cell>
-                  <Text>{key+1}</Text>
-                </DataTable.Cell>
-                <DataTable.Cell>
-                  <Text>{data.Country}</Text>
-                </DataTable.Cell>
-                <DataTable.Cell>
-                  <Text>{data.TotalConfirmed}</Text>
-                </DataTable.Cell>
-                <DataTable.Cell>
-                  <Text>{data.TotalRecovered}</Text>
-                </DataTable.Cell>
-                <DataTable.Cell>
-                  <Text>{data.TotalDeaths}</Text>
-                </DataTable.Cell>
-              </DataTable.Row>
-            );
-          })}
+          {cases != undefined ? (
+            cases.map((data, key) => {
+              return (
+                <DataTable.Row key={key}>
+                  <DataTable.Cell>
+                    <Text>{key + 1}</Text>
+                  </DataTable.Cell>
+                  <DataTable.Cell>
+                    <Text>{data.Country}</Text>
+                  </DataTable.Cell>
+                  <DataTable.Cell>
+                    <Text>{data.TotalConfirmed}</Text>
+                  </DataTable.Cell>
+                  <DataTable.Cell>
+                    <Text>{data.TotalRecovered}</Text>
+                  </DataTable.Cell>
+                  <DataTable.Cell>
+                    <Text>{data.TotalDeaths}</Text>
+                  </DataTable.Cell>
+                </DataTable.Row>
+              );
+            })
+          ) : (
+            <Text>Something Went Wrong</Text>
+          )}
         </ScrollView>
         {/*  <DataTable.Pagination
         page={page}
@@ -77,4 +81,3 @@ const MoreScreen = ({store}) => {
   );
 };
 export default inject('store')(observer(MoreScreen));
-
