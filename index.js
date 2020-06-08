@@ -8,7 +8,7 @@ import {name as appName} from './app.json';
 import React from 'react';
 import {Provider} from 'mobx-react';
 import Store from './src/store/store';
-
+console.disableYellowBox = true;
 const MainApp = () => {
   return (
     <Provider store={Store}>
