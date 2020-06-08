@@ -15,7 +15,7 @@ const MoreScreen = ({store}) => {
   const theme = useTheme();
   const {cases} = store;
   const tableHead = [
-    {id: 1, title: 'Rank'},
+    {id: 1, title: 'S/N'},
     {id: 2, title: 'Country'},
     {id: 3, title: 'Total Case'},
     {id: 4, title: 'Recovered'},
