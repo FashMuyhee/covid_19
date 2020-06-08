@@ -109,6 +109,7 @@ const HomeScreen = ({navigation}) => {
       <Box
         customStyle={{
           backgroundColor: theme['color-warning-400'],
+          marginBottom: 10,
         }}
         onPress={() => navigation.navigate('cases')}>
         <Image source={cases} style={styles.image} />
