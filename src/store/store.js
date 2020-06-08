@@ -1,4 +1,4 @@
-import { decorate, observable, action } from 'mobx';
+import {decorate, observable, action} from 'mobx';
 import axios from 'axios';
 
 class Store {
@@ -1245,8 +1245,9 @@ class Store {
     },
   ];
   globalCase = [];
-  cases ={}
-  loading = false
+  lCase = {};
+  loading = false;
+  cases = {};
 
   getCases = () => {
     this.loading = true;
@@ -1258,9 +1259,10 @@ class Store {
     })
       .then((res) => {
         this.globalCase = res.data.Global;
+        this.lCase = res.data.Countries[123];
         this.cases = res.data.Countries;
         this.loading = false;
-        // console.log(this.cases, this.globalCase);
+        
       })
       .catch((e) => {
         this.loading = false;
@@ -1284,9 +1286,10 @@ class Store {
 }
 decorate(Store, {
   cases: observable,
+  lCase: observable,
   globalCase: observable,
   countries: observable,
-  loading:observable,
+  loading: observable,
   getCountries: action,
   getCases: action,
 });
