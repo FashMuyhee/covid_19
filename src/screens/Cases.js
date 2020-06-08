@@ -18,9 +18,15 @@ import {
   heightPercentageToDP as hp,
   widthPercentageToDP as wp,
 } from 'react-native-responsive-screen';
-import {Image, ActivityIndicator, RefreshControl} from 'react-native';
+import {
+  Image,
+  ActivityIndicator,
+  RefreshControl,
+  ToastAndroid,
+} from 'react-native';
 import {inject, observer} from 'mobx-react';
 import doc from '../assets/img/doc.png';
+import NetInfo from '@react-native-community/netinfo';
 
 const CasesScreen = ({navigation, store}) => {
   const currentDate = new Date().toDateString();
@@ -28,28 +34,12 @@ const CasesScreen = ({navigation, store}) => {
   const theme = useTheme();
   const [state, setState] = useState({
     location: 'nigeria',
-    lCase: {},
     countries: store.countries,
     refreshing: false,
+    connection_Status: false,
   });
-  const {cases, globalCase, getCases, getCountries, loading} = store;
-  const {location, lCase, refreshing} = state;
-
-  const setCountryCase = () => {
-    cases.forEach((element) => {
-      if (
-        element.hasOwnProperty('Country') &&
-        element.Country.toLowerCase() === 'nigeria'
-      ) {
-        setState({...state, lCase: element});
-        console.log('lcase' + lCase);
-      }
-    });
-  };
-
-  const LocationIcon = (props) => {
-    return <Icon {...props} name="pin" />;
-  };
+  const {lCase, globalCase, getCases, getCountries, loading} = store;
+  const {location, refreshing, connection_Status} = state;
 
   const onRender = async () => {
     // setState({...state, refreshing: true});
@@ -57,11 +47,45 @@ const CasesScreen = ({navigation, store}) => {
     await getCases();
     // setState({...state, refreshing: false});
   };
+
+  const handleConnectivityChange = (state) => {
+    if (state.isConnected === true) {
+      setState({...state, connection_Status: true});
+    } else {
+      setState({...state, connection_Status: false});
+      ToastAndroid.showWithGravityAndOffset(
+        'Your are not connected',
+        ToastAndroid.LONG,
+        ToastAndroid.BOTTOM,
+        25,
+        50,
+      );
+    }
+  };
+
   useEffect(() => {
-    onRender();
-    setCountryCase();
+    const networkCheck = NetInfo.addEventListener(handleConnectivityChange);
+    NetInfo.fetch().then((state) => {
+      if (state.isConnected === true && state.isInternetReachable === true) {
+        onRender();
+      } else {
+        setState({...state, connection_Status: false});
+        ToastAndroid.showWithGravity(
+          'Your are not connected',
+          ToastAndroid.LONG,
+          ToastAndroid.BOTTOM,
+        );
+      }
+    });
+
+    // cleanup
+    return () => {
+      // setInterval(() => {
+      networkCheck();
+      // }, 10000);
+    };
   }, []);
-  
+
   return (
     <ScrollContainer
       style={styles.container}
@@ -91,7 +115,6 @@ const CasesScreen = ({navigation, store}) => {
           }}
         />
       </Box>
-
       <Layout style={styles.content}>
         <Layout style={{marginTop: 10}}>
           <Layout style={styles.caseLink}>
@@ -100,9 +123,10 @@ const CasesScreen = ({navigation, store}) => {
               <Text appearance="hint">Lastest update {currentDate}</Text>
             </Layout>
             <Button
+              disable={loading}
               appearance="ghost"
               onPress={() =>
-                navigation.navigate('result', {cases: lCase, location})
+                navigation.navigate('result', {cases: lCase})
               }>
               <Text status="info"> See Details</Text>
             </Button>
@@ -148,6 +172,7 @@ const CasesScreen = ({navigation, store}) => {
               <Text appearance="hint">Newest update {currentDate}</Text>
             </Layout>
             <Button
+              disable={loading}
               appearance="ghost"
               onPress={() =>
                 navigation.navigate('case_detail', {
