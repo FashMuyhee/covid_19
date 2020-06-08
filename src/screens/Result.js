@@ -27,14 +27,14 @@ const ResultScreen = ({ store, route }) => {
    });
    const { location, cases } = store; */
 
-  const { cases, location } = route.params
+  const { cases } = route.params
   const closedCase = cases.TotalRecovered + cases.TotalDeaths
   const activeCase = cases.TotalConfirmed - closedCase
 
   return (
     <ScrollContainer style={styles.container}>
       <Layout style={styles.headerText}>
-        <Text category="h5" style={{ textTransform: "capitalize" }}>{location} : Case Detail</Text>
+        <Text category="h5" style={{ textTransform: "capitalize" }}>Nigeria : Case Detail</Text>
         <Text appearance="hint">{currentDate}</Text>
         <Text category="h5" style={{ textTransform: "capitalize" }}>{cases.TotalConfirmed} : Total Confirmed Cases</Text>
       </Layout>
