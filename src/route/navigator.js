@@ -47,7 +47,7 @@ const More = () => {
 export const AppNavigator = () => {
   return (
     <NavigationContainer>
-      <Stack.Navigator headerMode="none" initialRouteName="cases">
+      <Stack.Navigator headerMode="none" initialRouteName="landing">
         <Stack.Screen name="home" component={HomeScreen} />
         <Stack.Screen name="landing" component={LandingScreen} />
         <Stack.Screen name="symptoms" component={SymptomsScreen} />
