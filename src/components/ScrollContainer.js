@@ -1,9 +1,26 @@
 import React from 'react';
-import {StyleSheet, ScrollView} from 'react-native';
-const ScrollContainer = ({children, customStyle}) => {
-  const style = {...styles.container, ...customStyle};
+import {StyleSheet, ScrollView, RefreshControl} from 'react-native';
+import {useTheme} from '@ui-kitten/components';
 
-  return <ScrollView style={style}>{children}</ScrollView>;
+const ScrollContainer = ({children, customStyle, refreshing, onRefresh}) => {
+  const style = {...styles.container, ...customStyle};
+  const theme = useTheme();
+
+  return (
+    <ScrollView
+      refreshControl={
+        <RefreshControl
+          refreshing={refreshing}
+          onRefresh={onRefresh}
+          color={theme['color-primary-400']}
+          enabled
+          progressBackgroundColor="white"
+        />
+      }
+      style={style}>
+      {children}
+    </ScrollView>
+  );
 };
 
 export default ScrollContainer;
