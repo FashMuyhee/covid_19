@@ -32,7 +32,7 @@ const ResultScreen = ({ store, route }) => {
   const activeCase = cases.TotalConfirmed - closedCase
 
   return (
-    <ScrollContainer style={styles.container}>
+    <ScrollContainer enable={false} style={styles.container}>
       <Layout style={styles.headerText}>
         <Text category="h5" style={{ textTransform: "capitalize" }}>Nigeria : Case Detail</Text>
         <Text appearance="hint">{currentDate}</Text>

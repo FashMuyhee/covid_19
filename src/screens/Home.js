@@ -23,7 +23,7 @@ const HomeScreen = ({navigation}) => {
   const styles = useStyleSheet(themedStyles);
   const theme = useTheme();
   return (
-    <ScrollContainer style={styles.container}>
+    <ScrollContainer style={styles.container} enable={false}>
       <Layout style={styles.headerText}>
         <Text category="h5">Covid-19</Text>
         <Text category="h3">Virus Tracking</Text>

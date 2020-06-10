@@ -53,7 +53,7 @@ const CasesScreen = ({navigation, store}) => {
 
   const handleConnectivityChange = (change) => {
     if (change.isConnected === true && change.isInternetReachable === true) {
-      setState({...state, connectionStatus: true,timeOut:false});
+      setState({...state, connectionStatus: true, timeOut: false});
       onRender();
       setTimeout(
         () => setState({...state, timeOut: true, connectionStatus: true}),
@@ -78,6 +78,7 @@ const CasesScreen = ({navigation, store}) => {
       <ScrollContainer
         style={styles.container}
         refreshing={refreshing}
+        enable={true}
         onRefresh={onRefresh}>
         <Layout style={styles.headerText}>
           <Text category="h5">Covid-19</Text>

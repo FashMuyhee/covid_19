@@ -2,7 +2,13 @@ import React from 'react';
 import {StyleSheet, ScrollView, RefreshControl} from 'react-native';
 import {useTheme} from '@ui-kitten/components';
 
-const ScrollContainer = ({children, customStyle, refreshing, onRefresh}) => {
+const ScrollContainer = ({
+  children,
+  customStyle,
+  refreshing,
+  onRefresh,
+  enable,
+}) => {
   const style = {...styles.container, ...customStyle};
   const theme = useTheme();
 
@@ -13,7 +19,7 @@ const ScrollContainer = ({children, customStyle, refreshing, onRefresh}) => {
           refreshing={refreshing}
           onRefresh={onRefresh}
           color={theme['color-primary-400']}
-          enabled
+          enabled={enable}
           progressBackgroundColor="white"
         />
       }

@@ -24,7 +24,7 @@ const SymptomsScreen = () => {
   const theme = useTheme();
 
   return (
-    <ScrollContainer style={styles.container}>
+    <ScrollContainer enable={false} style={styles.container}>
       <Layout style={styles.headerText}>
         <Text category="h5">Virus Tracking</Text>
         <Text category="h3">Symptoms</Text>

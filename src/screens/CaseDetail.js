@@ -37,7 +37,7 @@ const CaseDetailScreen = ({store, route,navigation}) => {
   
 
   return (
-    <ScrollContainer style={styles.container}>
+    <ScrollContainer enable={false} style={styles.container}>
       <Layout style={styles.headerText}>
         <Text category="h5" style={{textTransform: 'capitalize'}}>
           {location} : Case Detail
