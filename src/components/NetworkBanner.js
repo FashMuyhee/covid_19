@@ -1,24 +1,27 @@
 import React from 'react';
-import {Text, StyleService, useStyleSheet} from '@ui-kitten/components';
+import {Text, StyleService, useStyleSheet, Layout} from '@ui-kitten/components';
 
-const NetworkBanner = ({status, customStyle}) => {
+const NetworkBanner = ({status, timeout}) => {
   const styles = useStyleSheet(themedStyles);
 
-  const onlineStyle = {...styles.online, ...customStyle};
-  const offlineStyle = {...styles.offline, ...customStyle};
   const text = status
     ? `You're now connected PULL DOWN ⬇ to REFRESH`
     : `You're currenntly offline `;
-  const style = status ? onlineStyle : offlineStyle;
-
-  return <Text style={style}>{text}</Text>;
+  const style = status ? styles.online : styles.offline;
+  return (
+    <Layout style={timeout ? styles.timeout : ''}>
+      <Text style={style}>{text}</Text>
+    </Layout>
+  );
 };
 
 export default NetworkBanner;
 
 const themedStyles = StyleService.create({
+  timeout: {
+    display: 'none',
+  },
   online: {
-    flexDirection: 'column',
     backgroundColor: 'color-success-default',
     color: 'white',
     position: 'absolute',
@@ -31,7 +34,6 @@ const themedStyles = StyleService.create({
     textAlign: 'center',
   },
   offline: {
-    flexDirection: 'column',
     backgroundColor: 'color-danger-default',
     color: 'white',
     position: 'absolute',

@@ -38,37 +38,38 @@ const CasesScreen = ({navigation, store}) => {
   const {location, refreshing, connectionStatus, timeOut} = state;
 
   const onRender = async () => {
+    setState({...state, connectionStatus: true});
+    await getCountries();
+    await getCases();
+    setState({...state, connectionStatus: true});
+  };
+
+  const onRefresh = async () => {
     setState({...state, refreshing: true});
     await getCountries();
     await getCases();
     setState({...state, refreshing: false});
   };
 
-  const handleConnectivityChange = (state) => {
-    if (state.isConnected === true) {
-      setState({...state, connectionStatus: true});
+  const handleConnectivityChange = (change) => {
+    if (change.isConnected === true && change.isInternetReachable === true) {
+      setState({...state, connectionStatus: true,timeOut:false});
+      onRender();
+      setTimeout(
+        () => setState({...state, timeOut: true, connectionStatus: true}),
+        6000,
+      );
     } else {
       setState({...state, connectionStatus: false});
-      setTimeout(() => setState({...state, timeOut: true}));
     }
   };
 
   useEffect(() => {
+    setState({...state, timeOut: true});
     const networkCheck = NetInfo.addEventListener(handleConnectivityChange);
-    NetInfo.fetch().then((state) => {
-      if (state.isConnected === true && state.isInternetReachable === true) {
-        onRender();
-      } else {
-        // setState({...state, connectionStatus: false});
-        setTimeout(() => setState({...state, timeOut: true}));
-      }
-    });
-
     // cleanup
     return () => {
-      // setInterval(() => {
       networkCheck();
-      // }, 10000);
     };
   }, []);
 
@@ -77,7 +78,7 @@ const CasesScreen = ({navigation, store}) => {
       <ScrollContainer
         style={styles.container}
         refreshing={refreshing}
-        onRefresh={onRender}>
+        onRefresh={onRefresh}>
         <Layout style={styles.headerText}>
           <Text category="h5">Covid-19</Text>
           <Text category="h3">Case Update</Text>
@@ -199,10 +200,7 @@ const CasesScreen = ({navigation, store}) => {
           </Layout>
         </Layout>
       </ScrollContainer>
-      <NetworkBanner
-        status={connectionStatus}
-        customStyle={{display: 'none'}}
-      />
+      <NetworkBanner status={connectionStatus} timeout={timeOut} />
     </>
   );
 };
